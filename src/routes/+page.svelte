@@ -26,7 +26,9 @@
     }
 
     function watchPosition(){
-        navigator.geolocation.watchPosition(showLocation, showError);
+        navigator.geolocation.watchPosition(showLocation, showError, {
+            enableHighAccuracy: true
+        });
     }
 
     
