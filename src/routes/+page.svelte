@@ -1,9 +1,8 @@
 <script>
-	import { onMount } from "svelte";
-
-    let breitenGrad = $state('');
-    let langenGrad = $state('');
-    let genauigkeit = $state('');
+    let breitenGrad = '';
+    let langenGrad = '';
+    let genauigkeit = '';
+    let watchId;
 
     function showLocation(position) {
         breitenGrad = position.coords.latitude;
@@ -12,28 +11,28 @@
     }
 
     function showError(error) {
-        console.log("error" + error);
+        console.log("error", error);
     }
 
     function showPosition() {
         navigator.geolocation.getCurrentPosition(showLocation, showError);
     }
 
-    function watchPosition(){
-        navigator.geolocation.watchPosition(showLocation, showError, {
+    function watchPosition() {
+        watchId = navigator.geolocation.watchPosition(showLocation, showError, {
             enableHighAccuracy: true
         });
     }
 
-
-    function removeLocation(){
+    function removeLocation() {
         breitenGrad = '';
         langenGrad = '';
         genauigkeit = '';
-        clearWatch();
+        if (watchId) {
+            navigator.geolocation.clearWatch(watchId);
+            watchId = null;
+        }
     }
-
-    
 </script>
 
 <div class="flex flex-col items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900">
@@ -62,8 +61,8 @@
         <h2 class="text-lg font-bold text-gray-800 dark:text-gray-200 mb-4">Your Location Data</h2>
 
         <div class="space-y-2 text-gray-700 dark:text-gray-300">
-            <p><span class="font-semibold">Latitude:</span> {breitenGrad ?? "—"}</p>
-            <p><span class="font-semibold">Longitude:</span> {langenGrad ?? "—"}</p>
+            <p><span class="font-semibold">Latitude:</span> {breitenGrad || "—"}</p>
+            <p><span class="font-semibold">Longitude:</span> {langenGrad || "—"}</p>
             <p><span class="font-semibold">Accuracy:</span> {genauigkeit ?? `${genauigkeit} meters`}</p>
         </div>
     </div>
