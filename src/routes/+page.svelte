@@ -19,16 +19,18 @@
         navigator.geolocation.getCurrentPosition(showLocation, showError);
     }
 
-    function removeLocation(){
-        breitenGrad = '';
-        langenGrad = '';
-        genauigkeit = '';
-    }
-
     function watchPosition(){
         navigator.geolocation.watchPosition(showLocation, showError, {
             enableHighAccuracy: true
         });
+    }
+
+
+    function removeLocation(){
+        breitenGrad = '';
+        langenGrad = '';
+        genauigkeit = '';
+        clearWatch();
     }
 
     
