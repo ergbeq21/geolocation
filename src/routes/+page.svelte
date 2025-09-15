@@ -1,4 +1,6 @@
 <script>
+	import { onMount } from "svelte";
+
     let breitenGrad = $state('');
     let langenGrad = $state('');
     let genauigkeit = $state('');
@@ -22,6 +24,12 @@
         langenGrad = '';
         genauigkeit = '';
     }
+
+    function watchPosition(){
+        navigator.geolocation.watchPosition(showLocation, showError);
+    }
+
+    
 </script>
 
 <div class="flex flex-col items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900">
@@ -31,6 +39,12 @@
             class="px-4 py-2 mb-6 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-md transition"
         >
             Get Current Position
+        </button>
+        <button
+            onclick={watchPosition}
+            class="px-4 py-2 mb-6 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-md transition"
+        >
+            Watch Position
         </button>
         <button
             onclick={removeLocation} 
